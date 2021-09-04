@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+
 import * as StudentsDB from '../db/students';
 import { Student } from './../../../web/src/types/Student';
 
@@ -42,5 +43,23 @@ export class StudentsController {
     }catch(err){
       return res.status(StatusCodes.NOT_FOUND).json(err)
     }
+  }
+
+  async delete(req: Request, res: Response) {
+    const id = Number(req.params.id);
+
+    if (!id) {
+      return res.status(StatusCodes.BAD_REQUEST).send();
+    }
+
+    const student: Student = await StudentsDB.deleteStudent(id);
+
+    if (!student) {
+      return res.status(StatusCodes.NOT_FOUND).send();
+    }
+
+    return res
+      .status(StatusCodes.OK)
+      .json({ message: "Success on delete", student });
   }
 }

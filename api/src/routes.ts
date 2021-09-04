@@ -24,4 +24,7 @@ routes.put(
 );
 //? Why not add an update, delete and get one routes/
 
+
+routes.delete("/students/:id", studentsController.delete);
+
 export default routes;
