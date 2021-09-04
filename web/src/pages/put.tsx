@@ -23,7 +23,7 @@ export default function Update() {
       .get(`/students/${1}`)
       .then((res) => res.data)
       .then(setStudent)
-      .catch((error) => alert(error));
+      .catch((error) => console.log(error));
   };
 
   const [wasCreated, setWasCreated] = useState(false);
@@ -38,7 +38,7 @@ export default function Update() {
     const data = Object.fromEntries(
       [id, name, birth, email, city].map((input) => [input.name, input.value])
     );
-    console.log(data);
+
     await http.put(`/students/${data.id}`, data);
 
     setWasCreated(true);
@@ -52,7 +52,7 @@ export default function Update() {
       .get(`/students/${studentId}`)
       .then((res) => res.data)
       .then(setStudent)
-      .catch((error) => alert(error));
+      .catch((_) => alert("Erro ao coletar dados do estudante"));
   }
 
   return (
