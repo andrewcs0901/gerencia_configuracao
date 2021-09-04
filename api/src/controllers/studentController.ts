@@ -18,13 +18,13 @@ export class StudentsController {
       return res.status(StatusCodes.BAD_REQUEST).send();
     }
 
-    const student:Student[] = await StudentsDB.getOneEstudent(id);
+    const student: Student = await StudentsDB.getOneStudent(id);
 
-    if (!student || student.length === 0 ) {
-      return  res.status(StatusCodes.NOT_FOUND).send();
+    if (!student) {
+      return res.status(StatusCodes.NOT_FOUND).send();
     }
 
-    return res.status(StatusCodes.OK).json(student[0]);
+    return res.status(StatusCodes.OK).json(student);
   }
 
   async create(req: Request, res: Response) {
