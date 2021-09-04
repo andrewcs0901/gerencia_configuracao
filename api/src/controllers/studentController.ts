@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
-import { Student } from "src/types/Student";
+import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import { Student } from 'src/types/Student';
 
-import * as StudentsDB from "../db/students";
+import * as StudentsDB from '../db/students';
 
 export class StudentsController {
   async get(_: Request, res: Response) {
