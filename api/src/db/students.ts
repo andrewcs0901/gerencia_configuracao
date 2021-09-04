@@ -37,8 +37,11 @@ const getStudents = () => Promise.resolve(Object.freeze([...students]));
  */
  function updateStudents(student: Student) {
   const index =  students.findIndex(std => std.id === student.id);
-  if(index) students[index] = student;
-  return Promise.resolve(students[index]);
+  if(index < -1) {
+    students[index] = student;
+    return Promise.resolve(students[index]);
+  }
+  return Promise.reject({error:"student not found"});
 }
 
 export { addStudent, getStudents,updateStudents };

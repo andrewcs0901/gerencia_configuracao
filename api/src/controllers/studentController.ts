@@ -1,6 +1,7 @@
 import * as StudentsDB from "../db/students";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { Student } from "src/types/Student";
 
 export class StudentsController {
   async get(_: Request, res: Response) {
@@ -16,9 +17,14 @@ export class StudentsController {
   }
 
   async update(req: Request, res: Response) {
-    const student = req.body
-    student.id = +req.params.id
-    const newStudent = await StudentsDB.updateStudents(student);
-    return res.status(StatusCodes.ACCEPTED).json(newStudent);
+    const id:number = Number(req.params.id);
+    const student:Student = req.body
+    student.id = id
+    try{
+      const newStudent = await StudentsDB.updateStudents(student);
+      return res.status(StatusCodes.ACCEPTED).json(newStudent);
+    }catch(err){
+      return res.status(StatusCodes.NOT_FOUND).json(err)
+    }
   }
 }
