@@ -8,7 +8,7 @@ import { Student } from "../types/Student";
 export default function Update() {
   const router = useRouter();
   const [students, setStudents] = useState<Student[]>([]);
-
+  const [student, setStudent] = useState<Student>();
   useEffect(() => {
     fetchStudents();
   }, []);
@@ -18,6 +18,11 @@ export default function Update() {
       .get("/students")
       .then((res) => res.data)
       .then(setStudents)
+      .catch((error) => console.log(error));
+    await http
+      .get(`/students/${1}`)
+      .then((res) => res.data)
+      .then(setStudent)
       .catch((error) => console.log(error));
   };
 
@@ -34,11 +39,20 @@ export default function Update() {
       [id, name, birth, email, city].map((input) => [input.name, input.value])
     );
 
-    // await http.put(`/student/${id}`, data);
+    await http.put(`/students/${data.id}`, data);
 
     setWasCreated(true);
     (event.target as any).reset();
-    //router.back();
+    router.back();
+  }
+
+  async function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
+    const studentId: Number = Number(event.target.value);
+    await http
+      .get(`/students/${studentId}`)
+      .then((res) => res.data)
+      .then(setStudent)
+      .catch((_) => alert("Erro ao coletar dados do estudante"));
   }
 
   return (
@@ -58,7 +72,7 @@ export default function Update() {
       <main className={styles.main}>
         <form className={styles.grid} onSubmit={handleFormSubmit}>
           <div>
-            <select id="id" name="id">
+            <select id="id" name="id" onChange={(e) => handleSelect(e)}>
               <label htmlFor="id">Selecione o estudante</label>
               {students.map((student) => (
                 <option value={student.id} key={student.id}>
@@ -74,6 +88,7 @@ export default function Update() {
               id="name"
               name="name"
               required
+              defaultValue={student?.name}
               placeholder="Adicione o nome do estudante..."
               disabled={wasCreated}
             />
@@ -95,6 +110,7 @@ export default function Update() {
               type="email"
               id="email"
               name="email"
+              defaultValue={student?.email}
               required
               placeholder="Adicione o email do estudante..."
               disabled={wasCreated}
@@ -107,6 +123,7 @@ export default function Update() {
               type="text"
               id="city"
               name="city"
+              defaultValue={student?.city}
               required
               placeholder="Adicione a cidade natal do estudante..."
               disabled={wasCreated}
