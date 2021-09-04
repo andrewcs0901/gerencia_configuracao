@@ -30,6 +30,10 @@ function addStudent(student: Student) {
  */
 const getStudents = () => Promise.resolve(Object.freeze([...students]));
 
+const getOneStudent = (id: number): Promise<any> => { 
+  return Promise.resolve(students.find((student:Student) => student.id === id));
+};
+
 const deleteStudent = (id: number): Promise<any> => {
   const entity = students.find((student: Student) => student.id === id);
 
@@ -44,4 +48,4 @@ const deleteStudent = (id: number): Promise<any> => {
   return Promise.resolve(null);
 };
 
-export { addStudent, getStudents, deleteStudent };
+export { addStudent, getStudents, getOneStudent, deleteStudent };
