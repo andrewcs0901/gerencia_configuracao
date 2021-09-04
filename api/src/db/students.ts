@@ -34,4 +34,20 @@ const getOneStudent = (id: number): Promise<any> => {
   return Promise.resolve(students.find((student:Student) => student.id === id));
 };
 
-export { addStudent, getStudents, getOneStudent };
+/**
+ * Update student to list
+ * @param student New student
+ * *@returns Students
+ */
+ function updateStudents(student: Student) {
+  const index =  students.findIndex(std => std.id === student.id);
+  if(index < -1) {
+    students[index] = student;
+    return Promise.resolve(students[index]);
+  }
+  return Promise.reject({error:"student not found"});
+}
+
+export { addStudent, getStudents, getOneStudent, updateStudents };
+
+
