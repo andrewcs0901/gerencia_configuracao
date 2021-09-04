@@ -18,7 +18,7 @@ routes.post(
   studentsController.create
 );
 routes.put(
-  "/student/:id",
+  "/students/:id",
   celebrate({ body: Joi.object().keys(StudentSchema) }),
   studentsController.update
 );
