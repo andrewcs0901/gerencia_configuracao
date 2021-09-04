@@ -33,10 +33,10 @@ export default function Delete() {
       [id].map((input) => [input.name, input.value])
     );
 
-    // await http.put(`/delete/${data.id});
+    await http.delete(`/students/${data.id}`);
     setWasCreated(true);
     (event.target as any).reset();
-    //router.back();
+    router.back();
   }
 
   return (
