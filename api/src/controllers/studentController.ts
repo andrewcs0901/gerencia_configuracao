@@ -33,6 +33,18 @@ export class StudentsController {
     return res.status(StatusCodes.CREATED).json(newStudent);
   }
 
+  async update(req: Request, res: Response) {
+    const id:number = Number(req.params.id);
+    const student:Student = req.body
+    student.id = id
+    try{
+      const newStudent = await StudentsDB.updateStudents(student);
+      return res.status(StatusCodes.ACCEPTED).json(newStudent);
+    }catch(err){
+      return res.status(StatusCodes.NOT_FOUND).json(err)
+    }
+  }
+
   async delete(req: Request, res: Response) {
     const id = Number(req.params.id);
 

@@ -30,10 +30,34 @@ function addStudent(student: Student) {
  */
 const getStudents = () => Promise.resolve(Object.freeze([...students]));
 
+/**
+ * Find one student
+ * @param id of student
+ * @returns Students
+ */
 const getOneStudent = (id: number): Promise<any> => { 
   return Promise.resolve(students.find((student:Student) => student.id === id));
 };
 
+/**
+ * Update student to list
+ * @param student New student
+ * *@returns Students
+ */
+ function updateStudents(student: Student) {
+  const index =  students.findIndex(std => std.id === student.id);
+  if(index < -1) {
+    students[index] = student;
+    return Promise.resolve(students[index]);
+  }
+  return Promise.reject({error:"student not found"});
+}
+
+ /**
+ * Delete one student
+ * @param id of student
+ * @returns Students
+ */
 const deleteStudent = (id: number): Promise<any> => {
   const entity = students.find((student: Student) => student.id === id);
 
@@ -48,4 +72,6 @@ const deleteStudent = (id: number): Promise<any> => {
   return Promise.resolve(null);
 };
 
-export { addStudent, getStudents, getOneStudent, deleteStudent };
+export { addStudent, getStudents, getOneStudent, updateStudents , deleteStudent};
+
+
