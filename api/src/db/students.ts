@@ -1,4 +1,4 @@
-import { Student } from "../types/Student";
+import { Student } from '../types/Student'; 
 
 const students: Student[] = [
   {
@@ -30,4 +30,8 @@ function addStudent(student: Student) {
  */
 const getStudents = () => Promise.resolve(Object.freeze([...students]));
 
-export { addStudent, getStudents };
+const getOneStudent = (id: number): Promise<any> => { 
+  return Promise.resolve(students.find((student:Student) => student.id === id));
+};
+
+export { addStudent, getStudents, getOneStudent };
