@@ -30,4 +30,15 @@ function addStudent(student: Student) {
  */
 const getStudents = () => Promise.resolve(Object.freeze([...students]));
 
-export { addStudent, getStudents };
+/**
+ * Add new student to list
+ * @param student New student
+ * *@returns Students
+ */
+ function updateStudents(student: Student) {
+  const index =  students.findIndex(std => std.id === student.id);
+  if(index) students[index] = student;
+  return Promise.resolve(students[index]);
+}
+
+export { addStudent, getStudents,updateStudents };
