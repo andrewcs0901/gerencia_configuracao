@@ -4,6 +4,7 @@ import supertest from 'supertest';
 import app from '..';
 import { createStudent, expectedStudent, updateStudent } from '../mocks/student';
 
+
 const request = supertest(app);
 
 describe("Test student requests", () => {
@@ -39,23 +40,28 @@ describe("Test student requests", () => {
       .then((res) => expect(res.body).toMatchObject({ id: 2, ...newStudent }));
   });
 
-  it(`should return status ${StatusCodes.NOT_FOUND} when student.id doesn't exists`, async () => {
-    await supertest(app)
-      .delete("/students/3")
+  it("bad request --fail case", async () => {
+    await request
+      .put(`/students/${null}`)
+      .send(updateStudent)
+      .expect(StatusCodes.BAD_REQUEST);
+  });
+
+  it("not found user id --fail case", async () => {
+    await request
+      .put("/students/5")
+      .send(updateStudent)
       .expect(StatusCodes.NOT_FOUND);
   });
 
-  
-  
-  it("should update student", async () => {
-    const { body, statusCode } = await request
-    .put("/students/1")
-    .send(updateStudent);
-    
-    expect(statusCode).toBe(202);
-    expect(body.name).toBe(updateStudent.name);
+  it("should update student --success case", async () => {
+    await request
+      .put("/students/1")
+      .send(updateStudent)
+      .expect(StatusCodes.OK)
+      .then((res) => expect(res.body).toMatchObject(updateStudent));
   });
-  
+
   it(`should return status ${StatusCodes.OK} when student is deleted`, async () => {
     await supertest(app)
       .delete("/students/1")
