@@ -1,6 +1,11 @@
-import app from "..";
 import supertest from "supertest";
-import { updateStudent } from "../mocks/student";
+
+import app from "..";
+import {
+  createStudent,
+  expectedStudent,
+  updateStudent,
+} from "../mocks/student";
 
 const request = supertest(app);
 
@@ -9,26 +14,26 @@ describe("Test student requests", () => {
     await request
       .get("/students")
       .expect(200)
-      .then((res) =>
-        expect(res.body).toMatchObject([
-          {
-            id: 1,
-            name: "John Doe",
-            email: "john.doe@example.com",
-            city: "Belo Horizonte",
-            birth: new Date("11/13/1999").toISOString(),
-          },
-        ])
-      );
+      .then((res) => expect(res.body).toMatchObject([expectedStudent]));
+  });
+
+  it("should return one student --success case", async () => {
+    await supertest(app)
+      .get(`/students/${1}`)
+      .expect(200)
+      .then((res) => expect(res.body).toMatchObject(expectedStudent));
+  });
+
+  it("should return BAD_REQUEST student --fail case", async () => {
+    await supertest(app).get(`/students/${null}`).expect(400);
+  });
+
+  it("should return NOTFOUND student --fail case", async () => {
+    await supertest(app).get(`/students/${3}`).expect(404);
   });
 
   it("should create a new student", async () => {
-    const newStudent = {
-      name: "John Doe 2",
-      email: "john.doe.2@example.com",
-      city: "Belo Horizonte",
-      birth: new Date("11/13/1999").toISOString(),
-    };
+    const newStudent = createStudent;
 
     await request
       .post("/students")
