@@ -1,5 +1,6 @@
 import app from "..";
 import supertest from "supertest";
+import { StatusCodes } from "http-status-codes";
 
 describe("Test student requests", () => {
   it("should return the example student", async () => {
@@ -31,5 +32,18 @@ describe("Test student requests", () => {
       .post("/students")
       .send(newStudent)
       .then((res) => expect(res.body).toMatchObject({ id: 2, ...newStudent }));
+  });
+
+  it(`should return status ${StatusCodes.NOT_FOUND} when student.id doesn't exists`, async () => {
+    await supertest(app)
+      .delete("/students/3")
+      .expect(StatusCodes.NOT_FOUND);
+  });
+
+  it(`should return status ${StatusCodes.OK} when student is deleted`, async () => {
+    await supertest(app)
+      .delete("/students/1")
+      .expect(StatusCodes.OK)
+      .then(res => expect(res.body.message).toBe("Success on delete"))
   });
 });
