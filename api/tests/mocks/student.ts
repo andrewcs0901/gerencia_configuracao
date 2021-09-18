@@ -3,7 +3,7 @@ const updateStudent = {
   name: "John Doe updated",
   email: "john.doe@example.com",
   city: "Belo Horizonte",
-  birth: new Date("11/13/1999"),
+  birth: new Date("11/13/1999").toISOString(),
 };
 
 const createStudent = {

@@ -34,13 +34,17 @@ export class StudentsController {
   }
 
   async update(req: Request, res: Response) {
-    const id: number = Number(req.params.id);
+    const id = Number(req.params.id);
+
+    if (!id) {
+      return res.status(StatusCodes.BAD_REQUEST).send();
+    }
     const student: Student = req.body;
     student.id = id;
 
     try {
       const newStudent = await StudentsDB.updateStudents(student);
-      return res.status(StatusCodes.ACCEPTED).json(newStudent);
+      return res.status(StatusCodes.OK).json(newStudent);
     } catch (err) {
       return res.status(StatusCodes.NOT_FOUND).json(err);
     }
