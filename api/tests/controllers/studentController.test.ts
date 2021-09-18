@@ -62,6 +62,12 @@ describe("Test student requests", () => {
       .then((res) => expect(res.body).toMatchObject(updateStudent));
   });
 
+  it(`should return status ${StatusCodes.NOT_FOUND} when student.id doesn't exists`, async () => {
+    await supertest(app)
+      .delete("/students/-1")
+      .expect(StatusCodes.NOT_FOUND)
+  });
+
   it(`should return status ${StatusCodes.OK} when student is deleted`, async () => {
     await supertest(app)
       .delete("/students/1")
