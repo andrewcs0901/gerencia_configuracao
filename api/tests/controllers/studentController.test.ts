@@ -1,6 +1,7 @@
 import app from "..";
 import supertest from "supertest";
 import { updateStudent } from "../mocks/student";
+import { StatusCodes } from "http-status-codes";
 
 const request = supertest(app);
 
@@ -36,12 +37,25 @@ describe("Test student requests", () => {
       .then((res) => expect(res.body).toMatchObject({ id: 2, ...newStudent }));
   });
 
-  it("should update student", async () => {
-    const { body, statusCode } = await request
-      .put("/students/1")
-      .send(updateStudent);
+  it("bad request --fail case", async () => {
+    await request
+      .put(`/students/${null}`)
+      .send(updateStudent)
+      .expect(StatusCodes.BAD_REQUEST);
+  });
 
-    expect(statusCode).toBe(202);
-    expect(body.name).toBe(updateStudent.name);
+  it("not found user id --fail case", async () => {
+    await request
+      .put("/students/5")
+      .send(updateStudent)
+      .expect(StatusCodes.NOT_FOUND);
+  });
+
+  it("should update student --success case", async () => {
+    await request
+      .put("/students/1")
+      .send(updateStudent)
+      .expect(StatusCodes.OK)
+      .then((res) => expect(res.body).toMatchObject(updateStudent));
   });
 });
