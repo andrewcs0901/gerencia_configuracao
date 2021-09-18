@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
+import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
 
-import * as StudentsDB from '../db/students';
-import { Student } from './../../../web/src/types/Student';
+import * as StudentsDB from "../db/students";
+import { Student } from "./../../../web/src/types/Student";
 
 export class StudentsController {
   async get(_: Request, res: Response) {
@@ -34,14 +34,15 @@ export class StudentsController {
   }
 
   async update(req: Request, res: Response) {
-    const id:number = Number(req.params.id);
-    const student:Student = req.body
-    student.id = id
-    try{
+    const id: number = Number(req.params.id);
+    const student: Student = req.body;
+    student.id = id;
+
+    try {
       const newStudent = await StudentsDB.updateStudents(student);
       return res.status(StatusCodes.ACCEPTED).json(newStudent);
-    }catch(err){
-      return res.status(StatusCodes.NOT_FOUND).json(err)
+    } catch (err) {
+      return res.status(StatusCodes.NOT_FOUND).json(err);
     }
   }
 

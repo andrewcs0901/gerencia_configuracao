@@ -1,9 +1,12 @@
 import app from "..";
 import supertest from "supertest";
+import { updateStudent } from "../mocks/student";
+
+const request = supertest(app);
 
 describe("Test student requests", () => {
   it("should return the example student", async () => {
-    await supertest(app)
+    await request
       .get("/students")
       .expect(200)
       .then((res) =>
@@ -27,9 +30,18 @@ describe("Test student requests", () => {
       birth: new Date("11/13/1999").toISOString(),
     };
 
-    await supertest(app)
+    await request
       .post("/students")
       .send(newStudent)
       .then((res) => expect(res.body).toMatchObject({ id: 2, ...newStudent }));
+  });
+
+  it("should update student", async () => {
+    const { body, statusCode } = await request
+      .put("/students/1")
+      .send(updateStudent);
+
+    expect(statusCode).toBe(202);
+    expect(body.name).toBe(updateStudent.name);
   });
 });
