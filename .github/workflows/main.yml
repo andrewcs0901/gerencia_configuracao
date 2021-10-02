@@ -8,7 +8,7 @@ on:
 jobs:
   hello:
     name: "Show our code"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       NODE_ENV: "production"
       NAME: ${{secrets.NAME}}
@@ -24,20 +24,20 @@ jobs:
         run: echo "You are in $NODE_ENV enviroment"
       - name: Say hello
         run: echo "Hello $NAME and $WORLD"
-        
+
   verify: 
     name: "Verify node version"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:  
       - name: Verify node version
         run: node -v
 
-  # install: 
-  #   name: "Config application"
-  #   runs-on: ubuntu-lastest 
-  #   steps:  
-  #     - name: Install dependencies
-  #       run: npm install
+  install: 
+    name: "Config application"
+    runs-on: ubuntu-latest 
+    steps:  
+      - name: Install dependencies
+        run: npm install
 
   # tests: 
   #   name: "Run tests"
