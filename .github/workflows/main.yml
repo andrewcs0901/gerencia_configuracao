@@ -45,10 +45,14 @@ jobs:
   install: 
     name: "Config application"
     runs-on: ubuntu-latest 
-    steps:   
-      - uses: actions/checkout@v2
-      - name: Show the directory
-        run: ls
+    steps:
+      - name: Install dependencies
+        run: npm install
+
+  test: 
+    name: "Run tests"
+    runs-on: ubuntu-latest
+    steps:  
       - name: Install dependencies
         run: npm install
       - name: Run tests
