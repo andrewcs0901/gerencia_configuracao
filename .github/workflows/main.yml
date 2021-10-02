@@ -25,7 +25,7 @@ jobs:
       - name: Show the directory
         run: ls
       - name: Show the index.ts
-        run: cat api/index.ts
+        run: cat index.ts
       - name: Show enviroment
         run: echo "You are in $NODE_ENV enviroment"
       - name: Say hello
