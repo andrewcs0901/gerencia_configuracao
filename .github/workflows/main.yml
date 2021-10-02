@@ -8,15 +8,36 @@ on:
 jobs:
   hello:
     name: "Show our code"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-lastest
     env:
-      NAME: ${{secrets.NAME}}
-      WORLD: "Earth"
+      NODE_ENV: "production"
+      PORT: 5000
     steps:
       - uses: actions/checkout@v2
       - name: Show the directory
         run: ls
       - name: Show the index.ts
-        run: cat index.ts
-      - name: Say hello
-        run: echo "Hello $NAME and $WORLD"
+        run: cat api/index.ts
+      - name: Show enviroment
+        run: echo "You are in $NODE_ENV enviroment"
+  
+  verify: 
+    name: "Verify node version"
+    runs-on: ubuntu-lastest 
+    steps:  
+      - name: Verify node version
+        run: node -v
+
+  # install: 
+  #   name: "Config application"
+  #   runs-on: ubuntu-lastest 
+  #   steps:  
+  #     - name: Install dependencies
+  #       run: npm install
+
+  # tests: 
+  #   name: "Run tests"
+  #   runs-on: ubuntu-lastest 
+  #   steps:  
+  #     - name: Run tests
+  #       run: npm run test
