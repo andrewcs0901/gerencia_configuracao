@@ -36,6 +36,9 @@ jobs:
     name: "Enter in directory"
     runs-on: ubuntu-latest 
     steps:  
+      - uses: actions/checkout@v2
+      - name: Show the directory
+        run: ls
       - name: Enter in directory
         run: cd api/
       - name: Show the directory
