@@ -32,10 +32,21 @@ jobs:
       - name: Verify node version
         run: node -v
 
+  directory: 
+    name: "Enter in directory"
+    runs-on: ubuntu-latest 
+    steps:  
+      - name: Enter in directory
+        run: cd api/
+      - name: Show the directory
+        run: ls
+
   install: 
     name: "Config application"
     runs-on: ubuntu-latest 
-    steps:  
+    steps:   
+      - name: Show the directory
+        run: ls
       - name: Install dependencies
         run: npm install
 
