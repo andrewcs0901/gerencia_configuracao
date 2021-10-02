@@ -8,7 +8,7 @@ on:
 jobs:
   hello:
     name: "Show our code"
-    runs-on:  ubuntu-lastest
+    runs-on: ubuntu-20.04
     env:
       NAME: ${{secrets.NAME}}
       WORLD: "Earth"
