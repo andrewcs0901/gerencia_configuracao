@@ -3,7 +3,7 @@ name:  New Students Api Pipeline
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   hello:
