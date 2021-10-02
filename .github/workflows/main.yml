@@ -6,6 +6,7 @@ on:
       - master
 
 jobs:
+
   hello:
     name: "Show our code"
     runs-on: ubuntu-latest
@@ -30,24 +31,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:  
       - name: Verify node version
-        run: node -v
-
-  directory: 
-    name: "Enter in directory"
-    runs-on: ubuntu-latest 
-    steps:  
-      - uses: actions/checkout@v2
-      - name: Show the directory
-        run: ls
-      - name: Enter in directory
-        run: cd api/
-      - name: Show the directory
-        run: ls
+        run: node -v 
 
   install: 
     name: "Config application"
     runs-on: ubuntu-latest 
+    defaults:
+      run:
+        working-directory: ./api
     steps:   
+      - uses: actions/checkout@v2
       - name: Show the directory
         run: ls
       - name: Install dependencies
@@ -56,6 +49,12 @@ jobs:
   test: 
     name: "Run tests"
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
     steps:  
+      - uses: actions/checkout@v2
+      - name: Show the directory
+        run: ls
       - name: Run tests
         run: npm run test
