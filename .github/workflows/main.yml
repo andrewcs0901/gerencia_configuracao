@@ -34,7 +34,11 @@ jobs:
   verify: 
     name: "Verify node version"
     runs-on: ubuntu-latest
-    steps:  
+    defaults:
+      run:
+        working-directory: ../
+    steps:
+      - uses: actions/checkout@v2
       - name: Verify node version
         run: node -v 
 
