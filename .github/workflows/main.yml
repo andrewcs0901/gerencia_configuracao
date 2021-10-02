@@ -1,0 +1,18 @@
+ name:  New Students Api Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  hello:
+    name: "Show our code"
+    runs-on:  ubuntu-lastest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Show the directory
+        run: ls
+      - name: Show the index.ts
+        run: cat index.ts
