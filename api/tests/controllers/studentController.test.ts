@@ -1,11 +1,30 @@
-import { StatusCodes } from 'http-status-codes';
-import supertest from 'supertest';
+import { StatusCodes } from "http-status-codes";
+import supertest from "supertest";
 
-import app from '..';
-import { createStudent, expectedStudent, updateStudent } from '../mocks/student';
-
+import app from "..";
+import {
+  createStudent,
+  expectedStudent,
+  updateStudent,
+} from "../mocks/student";
 
 const request = supertest(app);
+
+jest.mock("../../src/db/students", () => {
+  const originalModule = jest.requireActual("../../src/db/students");
+  const students = [
+    {
+      name: "John Doe 2",
+      email: "john.doe.2@example.com",
+      city: "Belo Horizonte",
+      birth: new Date("11/13/1999").toISOString(),
+    },
+  ];
+  return {
+    __esModule: true,
+    getStudents: () => Promise.resolve(students),
+  };
+});
 
 describe("Test student requests", () => {
   it("should return the example student", async () => {
@@ -63,15 +82,13 @@ describe("Test student requests", () => {
   });
 
   it(`should return status ${StatusCodes.NOT_FOUND} when student.id doesn't exists`, async () => {
-    await supertest(app)
-      .delete("/students/-1")
-      .expect(StatusCodes.NOT_FOUND)
+    await supertest(app).delete("/students/-1").expect(StatusCodes.NOT_FOUND);
   });
 
   it(`should return status ${StatusCodes.OK} when student is deleted`, async () => {
     await supertest(app)
       .delete("/students/1")
       .expect(StatusCodes.OK)
-      .then(res => expect(res.body.message).toBe("Success on delete"))
+      .then((res) => expect(res.body.message).toBe("Success on delete"));
   });
 });
