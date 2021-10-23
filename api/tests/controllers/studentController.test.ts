@@ -6,9 +6,15 @@ import {
   createStudent,
   expectedStudent,
   updateStudent,
+  deleteResponse,
 } from "../mocks/student";
-
-const request = supertest(app);
+import {
+  addStudent,
+  getStudents,
+  updateStudents,
+  deleteStudent,
+  getOneStudent,
+} from "../../src/db/students";
 
 jest.mock("../../src/db/students", () => {
   const originalModule = jest.requireActual("../../src/db/students");
@@ -22,73 +28,38 @@ jest.mock("../../src/db/students", () => {
   ];
   return {
     __esModule: true,
-    getStudents: () => Promise.resolve(students),
+    ...originalModule,
+    addStudent: () => Promise.resolve(createStudent),
+    getOneStudent: () => Promise.resolve(expectedStudent),
+    deleteStudent: () => Promise.resolve(deleteResponse),
+    getStudents: () => Promise.resolve([expectedStudent]),
+    updateStudents: () => Promise.resolve(updateStudent),
   };
 });
 
 describe("Test student requests", () => {
-  it("should return the example student", async () => {
-    await request
-      .get("/students")
-      .expect(StatusCodes.OK)
-      .then((res) => expect(res.body).toMatchObject([expectedStudent]));
-  });
-
-  it("should return one student --success case", async () => {
-    await request
-      .get(`/students/${1}`)
-      .expect(StatusCodes.OK)
-      .then((res) => expect(res.body).toMatchObject(expectedStudent));
-  });
-
-  it("should return BAD_REQUEST student --fail case", async () => {
-    await request.get(`/students/${null}`).expect(StatusCodes.BAD_REQUEST);
-  });
-
-  it("should return NOTFOUND student --fail case", async () => {
-    await request.get(`/students/${3}`).expect(StatusCodes.NOT_FOUND);
-  });
-
   it("should create a new student", async () => {
-    const newStudent = createStudent;
-
-    await request
-      .post("/students")
-      .send(newStudent)
-      .expect(StatusCodes.CREATED)
-      .then((res) => expect(res.body).toMatchObject({ id: 2, ...newStudent }));
+    const createdStudent = await addStudent(createStudent);
+    expect(createdStudent).toMatchObject(createStudent);
   });
 
-  it("bad request --fail case", async () => {
-    await request
-      .put(`/students/${null}`)
-      .send(updateStudent)
-      .expect(StatusCodes.BAD_REQUEST);
+  it("should get student", async () => {
+    const student = await getOneStudent(1);
+    expect(student).toMatchObject(expectedStudent);
   });
 
-  it("not found user id --fail case", async () => {
-    await request
-      .put("/students/5")
-      .send(updateStudent)
-      .expect(StatusCodes.NOT_FOUND);
+  it("get all students", async () => {
+    const students = await getStudents();
+    expect(students).toMatchObject([expectedStudent]);
   });
 
-  it("should update student --success case", async () => {
-    await request
-      .put("/students/1")
-      .send(updateStudent)
-      .expect(StatusCodes.OK)
-      .then((res) => expect(res.body).toMatchObject(updateStudent));
+  it("delete student", async () => {
+    const response = await deleteStudent(1);
+    expect(response).toMatchObject(deleteResponse);
   });
 
-  it(`should return status ${StatusCodes.NOT_FOUND} when student.id doesn't exists`, async () => {
-    await supertest(app).delete("/students/-1").expect(StatusCodes.NOT_FOUND);
-  });
-
-  it(`should return status ${StatusCodes.OK} when student is deleted`, async () => {
-    await supertest(app)
-      .delete("/students/1")
-      .expect(StatusCodes.OK)
-      .then((res) => expect(res.body.message).toBe("Success on delete"));
+  it("update student", async () => {
+    const student = await updateStudents(updateStudent);
+    expect(student).toMatchObject(updateStudent);
   });
 });
