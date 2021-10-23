@@ -3,14 +3,14 @@ const updateStudent = {
   name: "John Doe updated",
   email: "john.doe@example.com",
   city: "Belo Horizonte",
-  birth: new Date("11/13/1999").toISOString(),
+  birth: new Date("11/13/1999"),
 };
 
 const createStudent = {
   name: "John Doe 2",
   email: "john.doe.2@example.com",
   city: "Belo Horizonte",
-  birth: new Date("11/13/1999").toISOString(),
+  birth: new Date("11/13/1999"),
 };
 
 const expectedStudent = {
@@ -21,4 +21,12 @@ const expectedStudent = {
   birth: new Date("11/13/1999").toISOString(),
 };
 
-export { updateStudent, expectedStudent, createStudent };
+const deleteResponse = {
+  message: "Success on delete",
+  student: {
+    raw: [],
+    affected: 1,
+  },
+};
+
+export { updateStudent, expectedStudent, createStudent, deleteResponse };

@@ -18,7 +18,7 @@ export class StudentsController {
       return res.status(StatusCodes.BAD_REQUEST).send();
     }
 
-    const student: Student = await StudentsDB.getOneStudent(id);
+    const student: Student | undefined = await StudentsDB.getOneStudent(id);
 
     if (!student) {
       return res.status(StatusCodes.NOT_FOUND).send();

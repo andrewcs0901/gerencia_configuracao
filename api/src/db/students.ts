@@ -1,44 +1,33 @@
-import { Student } from "../types/Student";
-
-const students: Student[] = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    city: "Belo Horizonte",
-    birth: new Date("11/13/1999"),
-  },
-];
+import { getConnection } from "typeorm";
+import { Student } from "../entities/Student";
 
 /**
  * Add new student to list
  * @param student New student
  * @returns new student
  */
-function addStudent(student: Student) {
-  const newStudent = {
-    id: students.length ? students[students.length - 1].id! + 1 : 1,
-    ...student,
-  };
-  students.push(Object.freeze(newStudent));
-  return Promise.resolve(newStudent);
+async function addStudent(student: Student) {
+  const newStudent = new Student(student);
+  const connection = await getConnection().getRepository(Student);
+  await connection.save(newStudent);
 }
 
 /**
  * Returns student list
  * @returns Students
  */
-const getStudents = () => Promise.resolve(Object.freeze([...students]));
+const getStudents = async () => getConnection().getRepository(Student).find();
 
 /**
  * Find one student
  * @param id of student
  * @returns Students
  */
-const getOneStudent = (id: number): Promise<any> => {
-  return Promise.resolve(
-    students.find((student: Student) => student.id === id)
-  );
+const getOneStudent = async (id: number): Promise<Student | undefined> => {
+  const student = await getConnection()
+    .getRepository(Student)
+    .findOne({ where: { id: id } });
+  return student;
 };
 
 /**
@@ -46,32 +35,19 @@ const getOneStudent = (id: number): Promise<any> => {
  * @param student New student
  * *@returns Students
  */
-function updateStudents(student: Student) {
-  const index = students.findIndex((std) => std.id === student.id);
-  if (index > -1) {
-    students[index] = student;
-    return Promise.resolve(students[index]);
-  }
-  return Promise.reject({ error: "student not found" });
-}
+const updateStudents = async (
+  student: Student
+): Promise<Student | undefined> => {
+  return await getConnection().getRepository(Student).save(student);
+};
 
 /**
  * Delete one student
  * @param id of student
  * @returns Students
  */
-const deleteStudent = (id: number): Promise<any> => {
-  const entity = students.find((student: Student) => student.id === id);
-
-  if (entity) {
-    const index: number = students.indexOf(entity);
-
-    students.splice(index, 1);
-
-    return Promise.resolve(entity);
-  }
-
-  return Promise.resolve(null);
+const deleteStudent = async (id: number): Promise<any> => {
+  return await getConnection().getRepository(Student).delete(id);
 };
 
 export {
