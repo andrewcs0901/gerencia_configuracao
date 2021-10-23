@@ -1,5 +1,5 @@
 import { celebrate, Joi } from "celebrate";
-import express, { response } from "express";
+import express from "express";
 import { StudentsController } from "./controllers/studentController";
 import { StudentSchema } from "./entities/Student";
 

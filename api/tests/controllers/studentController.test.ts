@@ -1,7 +1,3 @@
-import { StatusCodes } from "http-status-codes";
-import supertest from "supertest";
-
-import app from "..";
 import {
   createStudent,
   expectedStudent,
@@ -18,14 +14,6 @@ import {
 
 jest.mock("../../src/db/students", () => {
   const originalModule = jest.requireActual("../../src/db/students");
-  const students = [
-    {
-      name: "John Doe 2",
-      email: "john.doe.2@example.com",
-      city: "Belo Horizonte",
-      birth: new Date("11/13/1999").toISOString(),
-    },
-  ];
   return {
     __esModule: true,
     ...originalModule,
