@@ -1,8 +1,9 @@
 version: '3.7'
 
 services: 
-  api-gerencia:
-    container_name: api-gerencia
+  api:
+    container_name: 'students-api'
+    image: students:latest
     build:
       context: ./
       dockerfile: Dockerfile 
