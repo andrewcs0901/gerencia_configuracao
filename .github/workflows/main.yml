@@ -72,9 +72,6 @@ jobs:
       - name: Show dist content
         run: ls ./dist
 
-
-jobs:
-
   docker :
     name: "See docker"
     runs-on: ubuntu-latest
