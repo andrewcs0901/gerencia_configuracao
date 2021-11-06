@@ -20,7 +20,6 @@ jobs:
       NAME: ${{secrets.NAME}}
       WORLD: "Earth"
       PORT: 5000
-      DATABASE_URL: ${{secrets.DB_URL}}
     steps:
       - uses: actions/checkout@v2
       - name: Show the directory
