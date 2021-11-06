@@ -91,5 +91,7 @@ jobs:
           dockerfile_directory: ./api
           dockerfile_name: Dockerfile
           process_type: web
+        env:
+          DATABASE_URL: ${{secrets.DB_URL}}
       - name: Show active containers
         run: docker ps
