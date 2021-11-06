@@ -79,5 +79,6 @@ jobs:
     name: "See docker"
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: See docker version
       - run: docker version 
