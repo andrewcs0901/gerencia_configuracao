@@ -84,7 +84,7 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "thestudentsapi"
           email: ${{secrets.HEROKU_EMAIL}} 
-          dockerfile_directory: ./
+          dockerfile_directory: ./api
           dockerfile_name: Dockerfile
           process_type: web
       - name: See docker version
