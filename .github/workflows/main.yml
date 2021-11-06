@@ -71,3 +71,13 @@ jobs:
         run: npm run build
       - name: Show dist content
         run: ls ./dist
+
+
+jobs:
+
+  docker :
+    name: "See docker"
+    runs-on: ubuntu-latest
+    steps:
+      - name: See docker version
+      - run: docker version 
