@@ -5,7 +5,7 @@ import "reflect-metadata";
 
 dotenv.config();
 
-const port = 5000;
+const port = process.env.PORT;
 
 setupConnection();
 app.listen(port, async () => {

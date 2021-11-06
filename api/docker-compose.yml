@@ -2,7 +2,7 @@ version: '3.7'
 
 services: 
   api:
-    container_name: 'students-api'
+    container_name: 'web'
     image: students:latest
     ports:
         - "5000:5000"
