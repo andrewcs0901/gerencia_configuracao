@@ -20,6 +20,7 @@ jobs:
       NAME: ${{secrets.NAME}}
       WORLD: "Earth"
       PORT: 5000
+      DATABASE_URL: ${{secrets.DB_URL}}
     steps:
       - uses: actions/checkout@v2
       - name: Show the directory
@@ -30,6 +31,9 @@ jobs:
         run: echo "You are in $NODE_ENV enviroment"
       - name: Say hello
         run: echo "Hello $NAME and $WORLD"
+      - name: Show DB URL
+        run: echo "Postgres url $DB_URL"
+
 
   verify: 
     name: "Verify node version"
@@ -87,9 +91,5 @@ jobs:
           dockerfile_directory: ./api
           dockerfile_name: Dockerfile
           process_type: web
-      - name: See docker version
-        run: docker version 
-      - name: Build Container
-        run: docker-compose up --build -d
-      - name: See containers
+      - name: Show active containers
         run: docker ps
