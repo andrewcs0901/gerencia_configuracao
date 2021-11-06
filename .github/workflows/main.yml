@@ -94,3 +94,5 @@ jobs:
           DATABASE_URL: ${{secrets.DB_URL}}
       - name: Show active containers
         run: docker ps
+      - name: Show DB URL
+        run: echo "Postgres url $DATABASE_URL"
