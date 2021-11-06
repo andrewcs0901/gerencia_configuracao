@@ -1,0 +1,8 @@
+version: '3.7'
+
+services: 
+  api-gerencia:
+    container_name: api-gerencia
+    build:
+      context: ./
+      dockerfile: Dockerfile 

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import * as StudentsDB from "../db/students";
-import { Student } from "./../../../web/src/types/Student";
+import { Student } from "../entities/Student";
 
 export class StudentsController {
   async get(_: Request, res: Response) {
