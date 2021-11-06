@@ -9,5 +9,6 @@ const port = process.env.PORT;
 
 setupConnection();
 app.listen(port, async () => {
+  console.log(`DB URL  - ${process.env.DATABASE_URL}`)
   console.log(`This beautiful and updated server is running on port ${port}`);
 });
